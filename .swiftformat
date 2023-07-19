@@ -1,0 +1,19 @@
+--header "{file}\nCopyright (c) {year}\nCreated by Nicholas Pilotto on {created}."
+
+--indent 2
+--tabwidth 2
+--indentcase true
+--ifdef indent
+--indentstrings true
+--elseposition same-line
+--guardelse same-line
+--extensionacl on-extension
+--generictypes
+--hexliteralcase uppercase
+--semicolons never
+--importgrouping alpha
+--operatorfunc spaced
+--trimwhitespace always
+--funcattributes same-line
+--typeattributes same-line
+--wrapenumcases always
