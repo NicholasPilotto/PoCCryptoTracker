@@ -1,27 +1,24 @@
-//
-//  HomeViewModel.swift
-//  CryptoTracker
-//
-//  Created by Nicholas Pilotto on 17/07/23.
-//
+// HomeViewModel.swift
+// Copyright (c) 2023
+// Created by Nicholas Pilotto on 17/07/23.
 
-import Foundation
 import Combine
+import Foundation
 
 class HomeViewModel: ObservableObject {
   @Published var allCoins: [CoinModel] = []
   @Published var portfolioCoins: [CoinModel] = []
-  
+
   private let dataService = CoinDataService()
   private var cancellables = Set<AnyCancellable>()
-  
+
   init() {
     addSubscribers()
   }
-  
+
   func addSubscribers() {
     dataService.$allCoins
-      .sink { [weak self] (returnedCoins) in
+      .sink { [weak self] returnedCoins in
         self?.allCoins = returnedCoins
       }
       .store(in: &cancellables)

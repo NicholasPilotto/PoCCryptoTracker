@@ -1,9 +1,6 @@
-//
-//  CircleButtonAnimationView.swift
-//  CryptoTracker
-//
-//  Created by Nicholas Pilotto on 13/07/23.
-//
+// CircleButtonAnimationView.swift
+// Copyright (c) 2023
+// Created by Nicholas Pilotto on 13/07/23.
 
 import SwiftUI
 
@@ -15,7 +12,6 @@ struct CircleButtonAnimationView: View {
       .scale(animate ? 1.0 : 0.0)
       .opacity(animate ? 0.0 : 1.0)
       .animation(animate ? Animation.easeOut(duration: 1.0) : .none, value: animate)
-    
   }
 }
 

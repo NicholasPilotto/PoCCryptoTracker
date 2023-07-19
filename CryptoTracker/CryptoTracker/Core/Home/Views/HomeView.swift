@@ -1,38 +1,35 @@
-//
-//  HomeView.swift
-//  CryptoTracker
-//
-//  Created by Nicholas Pilotto on 13/07/23.
-//
+// HomeView.swift
+// Copyright (c) 2023
+// Created by Nicholas Pilotto on 13/07/23.
 
 import SwiftUI
 
 struct HomeView: View {
   @EnvironmentObject private var viewModel: HomeViewModel
   @State private var showPortfolio: Bool = false
-  
-    var body: some View {
-      ZStack {
-        Color.theme.background
-          .ignoresSafeArea()
-        
-        VStack {
-          homeHeader
-          
-          columnsTitles
-          
-          if !showPortfolio {
-            allCoinList
-              .transition(.move(edge: .leading))
-          } else {
-            portfolioCoinList
-              .transition(.move(edge: .trailing))
-          }
-          
-          Spacer(minLength: 0)
+
+  var body: some View {
+    ZStack {
+      Color.theme.background
+        .ignoresSafeArea()
+
+      VStack {
+        homeHeader
+
+        columnsTitles
+
+        if !showPortfolio {
+          allCoinList
+            .transition(.move(edge: .leading))
+        } else {
+          portfolioCoinList
+            .transition(.move(edge: .trailing))
         }
+
+        Spacer(minLength: 0)
       }
     }
+  }
 }
 
 extension HomeView {
@@ -45,19 +42,19 @@ extension HomeView {
         .background {
           CircleButtonAnimationView(animate: $showPortfolio)
         }
-        
+
       Spacer()
-      
+
       Text(showPortfolio ? "Portfolio" : "Live prices")
         .font(.headline)
         .fontWeight(.heavy)
         .foregroundColor(Color.theme.accent)
         .transaction { transaction in
-            transaction.animation = nil
+          transaction.animation = nil
         }
-      
+
       Spacer()
-      
+
       CircleButtonView(iconeName: "chevron.right")
         .rotationEffect(Angle(degrees: showPortfolio ? 180 : 0))
         .onTapGesture {
@@ -68,7 +65,7 @@ extension HomeView {
     }
     .padding(.horizontal)
   }
-  
+
   private var allCoinList: some View {
     List {
       ForEach(viewModel.allCoins) { coin in
@@ -78,7 +75,7 @@ extension HomeView {
     }
     .listStyle(.plain)
   }
-  
+
   private var portfolioCoinList: some View {
     List {
       ForEach(viewModel.portfolioCoins) { coin in
@@ -88,7 +85,7 @@ extension HomeView {
     }
     .listStyle(.plain)
   }
-  
+
   private var columnsTitles: some View {
     HStack {
       Text("Coin")
@@ -106,11 +103,11 @@ extension HomeView {
 }
 
 struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-      NavigationView {
-        HomeView()
-          .navigationBarHidden(true)
-      }
-      .environmentObject(dev.homeViewModel)
+  static var previews: some View {
+    NavigationView {
+      HomeView()
+        .navigationBarHidden(true)
     }
+    .environmentObject(dev.homeViewModel)
+  }
 }

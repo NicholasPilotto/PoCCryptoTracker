@@ -1,9 +1,6 @@
-//
-//  CircleButtonView.swift
-//  CryptoTracker
-//
-//  Created by Nicholas Pilotto on 13/07/23.
-//
+// CircleButtonView.swift
+// Copyright (c) 2023
+// Created by Nicholas Pilotto on 13/07/23.
 
 import SwiftUI
 
@@ -18,7 +15,7 @@ struct CircleButtonView: View {
         Circle()
           .foregroundColor(Color.theme.background)
       )
-      .shadow(color: Color.theme.accent.opacity(0.25), radius: 10, x: 0, y: 0 )
+      .shadow(color: Color.theme.accent.opacity(0.25), radius: 10, x: 0, y: 0)
       .padding()
   }
 }

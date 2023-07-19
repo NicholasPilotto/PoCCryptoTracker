@@ -1,9 +1,6 @@
-//
-//  Color.swift
-//  CryptoTracker
-//
-//  Created by Nicholas Pilotto on 12/07/23.
-//
+// Color.swift
+// Copyright (c) 2023
+// Created by Nicholas Pilotto on 12/07/23.
 
 import SwiftUI
 

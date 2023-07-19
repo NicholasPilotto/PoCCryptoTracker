@@ -1,15 +1,12 @@
-//
-//  CoinModel.swift
-//  CryptoTracker
-//
-//  Created by Nicholas Pilotto on 15/07/23.
-//
+// CoinModel.swift
+// Copyright (c) 2023
+// Created by Nicholas Pilotto on 15/07/23.
 
 import Foundation
 
 /**
  coingecko.com API info
- 
+
  URL: https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=true&locale=en&precision=18
  */
 
@@ -41,15 +38,15 @@ struct CoinModel: Identifiable, Codable {
   let sparklineIn7D: SparklineIn7D?
   let priceChangePercentage24HInCurrency: Double?
   var currentHoldings: Double?
-  
+
   mutating func updateHoldings(amount: Double) {
-    self.currentHoldings = amount
+    currentHoldings = amount
   }
-  
+
   var currentHoldingsValue: Double {
     return currentPrice * (currentHoldings ?? 0)
   }
-  
+
   var rank: Int {
     return Int(marketCapRank ?? 0)
   }
@@ -58,4 +55,3 @@ struct CoinModel: Identifiable, Codable {
 struct SparklineIn7D: Codable {
   let price: [Double]?
 }
-

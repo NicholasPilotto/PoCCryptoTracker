@@ -1,14 +1,10 @@
-//
-//  Double.swift
-//  CryptoTracker
-//
-//  Created by Nicholas Pilotto on 15/07/23.
-//
+// Double.swift
+// Copyright (c) 2023
+// Created by Nicholas Pilotto on 15/07/23.
 
 import Foundation
 
 extension Double {
-  
   /// converts a Double into a currency with 2 decimal places
   /// ```
   /// Convert 1234.56 to $1,234.56
@@ -26,7 +22,7 @@ extension Double {
     formatter.maximumFractionDigits = 2
     return formatter
   }
-  
+
   /// converts a Double into a currency with 2 decimal places as a string
   /// ```
   /// Convert 1234.56 to "$1,234.56"
@@ -35,7 +31,7 @@ extension Double {
     let number = NSNumber(value: self)
     return currencyFormatter2.string(from: number) ?? "$0.00"
   }
-  
+
   /// converts a Double into a currency with 2-6 decimal places
   /// ```
   /// Convert 1234.56 to $1,234.56
@@ -53,7 +49,7 @@ extension Double {
     formatter.maximumFractionDigits = 6
     return formatter
   }
-  
+
   /// converts a Double into a currency with 2-6 decimal places as a string
   /// ```
   /// Convert 1234.56 to "$1,234.56"
@@ -64,7 +60,7 @@ extension Double {
     let number = NSNumber(value: self)
     return currencyFormatter6.string(from: number) ?? "$0.00"
   }
-  
+
   /// converts a Double into string rappresentation
   /// ```
   /// Convert 1.2345 to "1.23"
@@ -72,7 +68,7 @@ extension Double {
   func asNumberString() -> String {
     return String(format: "%.2f", self)
   }
-  
+
   /// converts a Double into string rappresentation with percent symbol
   /// ```
   /// Convert 1.2345 to "1.23%"
