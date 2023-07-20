@@ -15,6 +15,8 @@ struct HomeView: View {
 
       VStack {
         homeHeader
+        
+        SearchBarView(searchText: $viewModel.searchedText)
 
         columnsTitles
 
