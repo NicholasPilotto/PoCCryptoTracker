@@ -1,9 +1,6 @@
-//
-//  PortfolioView.swift
-//  CryptoTracker
-//
-//  Created by Nicholas Pilotto on 23/07/23.
-//
+// PortfolioView.swift
+// Copyright (c) 2023
+// Created by Nicholas Pilotto on 23/07/23.
 
 import SwiftUI
 
@@ -11,19 +8,19 @@ struct PortfolioView: View {
   @Environment(\.isPresented) private var isPresented
   @Environment(\.dismiss) private var dismiss
   @EnvironmentObject private var viewModel: HomeViewModel
-  
+
   @State private var selectedCoin: CoinModel? = nil
   @State private var quatityText: String = ""
   @State private var showCheckmark: Bool = false
-  
+
   var body: some View {
     NavigationView {
       ScrollView {
         VStack(alignment: .leading, spacing: 0) {
           SearchBarView(searchText: $viewModel.searchedText)
-          
+
           coinLogoList
-          
+
           if selectedCoin != nil {
             portfolioInputSection
           }
@@ -64,9 +61,8 @@ extension PortfolioView {
             .background(
               RoundedRectangle(cornerRadius: 10)
                 .stroke(selectedCoin?.id == coin.id ?
-                        Color.theme.green : Color.clear
-                        , lineWidth: 1.0)
-              
+                  Color.theme.green : Color.clear,
+                  lineWidth: 1.0)
             )
         }
       }
@@ -74,7 +70,7 @@ extension PortfolioView {
       .padding(.leading)
     }
   }
-  
+
   private var portfolioInputSection: some View {
     VStack(spacing: 20) {
       HStack {
@@ -82,9 +78,9 @@ extension PortfolioView {
         Spacer()
         Text(selectedCoin?.currentPrice.asCurrency() ?? "")
       }
-      
+
       Divider()
-      
+
       HStack {
         Text("Amount holding:")
         Spacer()
@@ -92,9 +88,9 @@ extension PortfolioView {
           .multilineTextAlignment(.trailing)
           .keyboardType(.decimalPad)
       }
-      
+
       Divider()
-      
+
       HStack {
         Text("Current value:")
         Spacer()
@@ -105,7 +101,7 @@ extension PortfolioView {
       transaction.animation = nil
     }
   }
-  
+
   private var trailingNavbarButton: some View {
     HStack(spacing: 10) {
       Image(systemName: "checkmark")
@@ -122,36 +118,36 @@ extension PortfolioView {
     }
     .font(.headline)
   }
-  
+
   private func getCurrentValue() -> Double {
     if let quantity = Double(quatityText) {
       return quantity * (selectedCoin?.currentPrice ?? 0)
     }
-    
+
     return 0
   }
-  
+
   private func saveButtonPressed() {
     guard let coin = selectedCoin else {
       return
     }
-    
+
     withAnimation(.easeIn) {
       showCheckmark = true
       removeSelectedCoin()
     }
-    
+
     // hide keyboard
     UIApplication.shared.endEditing()
-    
+
     // hide checkmark
-    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0, execute: {
+    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
       withAnimation(.easeOut) {
         showCheckmark = false
       }
-    })
+    }
   }
-  
+
   private func removeSelectedCoin() {
     selectedCoin = nil
     viewModel.searchedText = ""
