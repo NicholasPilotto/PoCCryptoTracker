@@ -8,8 +8,17 @@
 import SwiftUI
 
 struct XMarkButton: View {
+  @Environment(\.isPresented) private var isPresented
+  @Environment(\.dismiss) private var dismiss
+  
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+      Button {
+        if isPresented {
+          dismiss()
+        }
+      } label: {
+        Image(systemName: "xmark")
+      }
     }
 }
 

@@ -1,12 +1,9 @@
-//
-//  MarketDataService.swift
-//  CryptoTracker
-//
-//  Created by Nicholas Pilotto on 23/07/23.
-//
+// MarketDataService.swift
+// Copyright (c) 2023
+// Created by Nicholas Pilotto on 23/07/23.
 
-import Foundation
 import Combine
+import Foundation
 
 class MarketDataService {
   @Published var marketData: MarketDataModel? = nil
@@ -28,7 +25,7 @@ class MarketDataService {
     marketDataSubscription = NetworkingManager.download(url: url)
       .decode(type: GlobalData.self, decoder: decoder)
       .sink(receiveCompletion: NetworkingManager.handleCompletion, receiveValue: { [weak self] receivedData in
-        
+
         self?.marketData = receivedData.data
         self?.marketDataSubscription?.cancel()
       })
