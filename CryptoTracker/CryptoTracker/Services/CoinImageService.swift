@@ -17,7 +17,7 @@ class CoinImageService {
 
   init(coin: CoinModel) {
     self.coin = coin
-    self.imageName = coin.id
+    imageName = coin.id
     getCoinImage()
   }
 
@@ -28,11 +28,12 @@ class CoinImageService {
 
     imageSubscription = NetworkingManager.download(url: url)
       .tryMap { data -> UIImage? in
-        return UIImage(data: data)
+        UIImage(data: data)
       }
       .sink(receiveCompletion: NetworkingManager.handleCompletion, receiveValue: { [weak self] returnedImage in
         guard let self = self,
-              let downloadedImage = returnedImage else {
+              let downloadedImage = returnedImage else
+        {
           return
         }
         self.image = downloadedImage
@@ -40,7 +41,7 @@ class CoinImageService {
         self.fileManager.saveImage(image: downloadedImage, imageName: self.imageName, folderName: self.folderName)
       })
   }
-  
+
   private func getCoinImage() {
     if let savedImage = fileManager.getImage(imageName: coin.id, folderName: folderName) {
       image = savedImage

@@ -214,10 +214,10 @@ class DeveloperPreview {
   )
 
   let homeViewModel = HomeViewModel()
-  
+
   let statistic1 = StatisticModel(title: "Market cap", value: "$12.5Bn", percentageChange: 25.34)
   let statistic2 = StatisticModel(title: "Total volume", value: "$1.23Tr")
   let statistic3 = StatisticModel(title: "Portfolio value", value: "$50.4k", percentageChange: -12.34)
-  
+
   private init() {}
 }

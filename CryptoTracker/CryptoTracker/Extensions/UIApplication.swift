@@ -1,9 +1,6 @@
-//
-//  UIApplication.swift
-//  CryptoTracker
-//
-//  Created by Nicholas Pilotto on 21/07/23.
-//
+// UIApplication.swift
+// Copyright (c) 2023
+// Created by Nicholas Pilotto on 21/07/23.
 
 import Foundation
 import UIKit
