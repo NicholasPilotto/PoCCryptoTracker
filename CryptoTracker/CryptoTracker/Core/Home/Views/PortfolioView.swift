@@ -123,12 +123,13 @@ extension PortfolioView {
     }
     .font(.headline)
   }
-  
+
   private func updateSelectedCoin(coin: CoinModel) {
     selectedCoin = coin
-    
+
     if let portfolioCoin = viewModel.portfolioCoins.first(where: { $0.id == coin.id }),
-       let amount = portfolioCoin.currentHoldings {
+       let amount = portfolioCoin.currentHoldings
+    {
       quatityText = "\(amount)"
     } else {
       quatityText = "0"
@@ -145,10 +146,11 @@ extension PortfolioView {
 
   private func saveButtonPressed() {
     guard let coin = selectedCoin,
-          let amount = Double(quatityText) else {
+          let amount = Double(quatityText) else
+    {
       return
     }
-    
+
     viewModel.updatePortfolio(coin: coin, amount: amount)
 
     withAnimation(.easeIn) {
