@@ -11,12 +11,13 @@ class HomeViewModel: ObservableObject {
   @Published var allCoins: [CoinModel] = []
   @Published var portfolioCoins: [CoinModel] = []
   @Published var searchedText: String = ""
+  @Published var isLoading: Bool = false
 
   // data service
   private let coinDataService = CoinDataService()
   private let markedDataService = MarketDataService()
   private let portfolioDataService = PortfolioDataService()
-  
+
   private var cancellables = Set<AnyCancellable>()
 
   init() {
@@ -36,17 +37,45 @@ class HomeViewModel: ObservableObject {
     }
   }
 
-  private func mapGlobalMarketData(markedDataModel: MarketDataModel?) -> [StatisticModel] {
+  private func mapAllCoinsToPortfolioCoins(coinModels: [CoinModel], portfolioEnities: [PortfolioEntity]) -> [CoinModel] {
+    coinModels.compactMap { coin -> CoinModel? in
+      guard let entity = portfolioEnities.first(where: { $0.coinID == coin.id }) else {
+        return nil
+      }
+
+      var returnedCoin = coin
+      returnedCoin.updateHoldings(amount: entity.amount)
+      return returnedCoin
+    }
+  }
+
+  private func mapGlobalMarketData(markedDataModel: MarketDataModel?, portfolioCoins: [CoinModel]) -> [StatisticModel] {
     var stats: [StatisticModel] = []
+
     guard let data = markedDataModel else {
       return stats
     }
+
+    let portfolioValue =
+      portfolioCoins
+        .map { $0.currentHoldingsValue }
+        .reduce(0, +)
+
+    let previousValue =
+      portfolioCoins.map { coin -> Double in
+        let currentValue = coin.currentHoldingsValue
+        let percentageChange = (coin.priceChangePercentage24H ?? 0) / 100
+        return currentValue / (1 + percentageChange)
+      }
+      .reduce(0, +)
+
+    let percentageChange = ((portfolioValue - previousValue) / previousValue) * 100
 
     stats.append(contentsOf: [
       StatisticModel(title: "Market cap", value: data.marketCap, percentageChange: data.marketCapChangePercentage24HUsd),
       StatisticModel(title: "Volume", value: data.volume),
       StatisticModel(title: "BTC dominance", value: data.btcDominance),
-      StatisticModel(title: "Portfolio value", value: "$0.00", percentageChange: 0),
+      StatisticModel(title: "Portfolio value", value: portfolioValue.asCurrencyWith2Decimals(), percentageChange: percentageChange),
     ])
 
     return stats
@@ -63,35 +92,34 @@ class HomeViewModel: ObservableObject {
       }
       .store(in: &cancellables)
 
-    // updates market data
-    markedDataService.$marketData
-      .map(mapGlobalMarketData)
-      .sink { [weak self] marketDataReturned in
-        self?.statistics = marketDataReturned
-      }
-      .store(in: &cancellables)
-    
     // updates portfolio
     $allCoins
-      .combineLatest(self.portfolioDataService.$savedEntities)
-      .map { (coinModels, portfolioEnities) -> [CoinModel] in
-        coinModels.compactMap { (coin) -> CoinModel? in
-          guard let entity = portfolioEnities.first(where: { $0.coinID == coin.id }) else {
-            return nil
-          }
-          
-          var returnedCoin = coin
-          returnedCoin.updateHoldings(amount: entity.amount)
-          return returnedCoin
-        }
-      }
-      .sink { [weak self] (returnedCoins) in
+      .combineLatest(portfolioDataService.$savedEntities)
+      .map(mapAllCoinsToPortfolioCoins)
+      .sink { [weak self] returnedCoins in
         self?.portfolioCoins = returnedCoins
       }
       .store(in: &cancellables)
+
+    // updates market data
+    markedDataService.$marketData
+      .combineLatest($portfolioCoins)
+      .map(mapGlobalMarketData)
+      .sink { [weak self] marketDataReturned in
+        self?.statistics = marketDataReturned
+        self?.isLoading = false
+      }
+      .store(in: &cancellables)
   }
-  
+
   func updatePortfolio(coin: CoinModel, amount: Double) {
     portfolioDataService.updatePortfolio(coin: coin, amount: amount)
+  }
+
+  func reloadData() {
+    isLoading = true
+    coinDataService.getCoins()
+    markedDataService.getData()
+    HapticManager.notification(type: .success)
   }
 }
