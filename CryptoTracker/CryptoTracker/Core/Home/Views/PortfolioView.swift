@@ -9,9 +9,9 @@ struct PortfolioView: View {
   @Environment(\.dismiss) private var dismiss
   @EnvironmentObject private var viewModel: HomeViewModel
 
-  @State private var selectedCoin: CoinModel? = nil
+  @State private var selectedCoin: CoinModel?
   @State private var quatityText: String = ""
-  @State private var showCheckmark: Bool = false
+  @State private var showCheckmark = false
 
   var body: some View {
     NavigationView {
@@ -42,7 +42,7 @@ struct PortfolioView: View {
         }
       }
       .onChange(of: viewModel.searchedText) { value in
-        if value == "" {
+        if value.isEmpty {
           removeSelectedCoin()
         }
       }
@@ -128,8 +128,7 @@ extension PortfolioView {
     selectedCoin = coin
 
     if let portfolioCoin = viewModel.portfolioCoins.first(where: { $0.id == coin.id }),
-       let amount = portfolioCoin.currentHoldings
-    {
+      let amount = portfolioCoin.currentHoldings {
       quatityText = "\(amount)"
     } else {
       quatityText = "0"
@@ -146,8 +145,7 @@ extension PortfolioView {
 
   private func saveButtonPressed() {
     guard let coin = selectedCoin,
-          let amount = Double(quatityText) else
-    {
+      let amount = Double(quatityText) else {
       return
     }
 

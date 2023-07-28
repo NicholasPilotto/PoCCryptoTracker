@@ -206,8 +206,7 @@ class DeveloperPreview {
       57430.1839517489,
       56969.140564644826,
       57154.57504790339,
-      57336.828870254896,
-
+      57336.828870254896
     ]),
     priceChangePercentage24HInCurrency: 3952.64,
     currentHoldings: 1.5

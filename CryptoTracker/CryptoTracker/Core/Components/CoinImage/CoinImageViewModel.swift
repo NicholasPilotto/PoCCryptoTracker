@@ -7,8 +7,8 @@ import Foundation
 import SwiftUI
 
 class CoinImageViewModel: ObservableObject {
-  @Published var image: UIImage? = nil
-  @Published var isLoading: Bool = false
+  @Published var image: UIImage?
+  @Published var isLoading = false
 
   private let coin: CoinModel
   private let dataService: CoinImageService

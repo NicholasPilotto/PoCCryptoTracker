@@ -5,7 +5,7 @@
 import Foundation
 import SwiftUI
 
-class HapticManager {
+enum HapticManager {
   private static let generator = UINotificationFeedbackGenerator()
 
   static func notification(type: UINotificationFeedbackGenerator.FeedbackType) {

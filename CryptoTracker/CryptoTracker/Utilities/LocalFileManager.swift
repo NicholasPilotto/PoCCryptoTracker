@@ -46,8 +46,7 @@ class LocalFileManager {
     createFolderIfNeeded(folderName: folderName)
 
     guard let data = image.pngData(),
-          let url = getURLForImage(imageName: imageName, folderName: folderName) else
-    {
+      let url = getURLForImage(imageName: imageName, folderName: folderName) else {
       return
     }
 
@@ -60,8 +59,7 @@ class LocalFileManager {
 
   func getImage(imageName: String, folderName: String) -> UIImage? {
     guard let url = getURLForImage(imageName: imageName, folderName: folderName),
-          FileManager.default.fileExists(atPath: url.path) else
-    {
+      FileManager.default.fileExists(atPath: url.path) else {
       return nil
     }
 

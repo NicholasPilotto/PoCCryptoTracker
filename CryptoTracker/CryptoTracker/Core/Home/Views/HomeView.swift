@@ -7,9 +7,9 @@ import SwiftUI
 struct HomeView: View {
   @EnvironmentObject private var viewModel: HomeViewModel
   /// animate transition to portfolio view
-  @State private var showPortfolio: Bool = false
+  @State private var showPortfolio = false
   /// show portfolio view
-  @State private var showPortfolioView: Bool = false
+  @State private var showPortfolioView = false
 
   var body: some View {
     ZStack {

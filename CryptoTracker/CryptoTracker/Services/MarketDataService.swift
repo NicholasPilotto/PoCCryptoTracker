@@ -6,7 +6,7 @@ import Combine
 import Foundation
 
 class MarketDataService {
-  @Published var marketData: MarketDataModel? = nil
+  @Published var marketData: MarketDataModel?
 
   var marketDataSubscription: AnyCancellable?
 
@@ -24,10 +24,9 @@ class MarketDataService {
 
     marketDataSubscription = NetworkingManager.download(url: url)
       .decode(type: GlobalData.self, decoder: decoder)
-      .sink(receiveCompletion: NetworkingManager.handleCompletion, receiveValue: { [weak self] receivedData in
-
+      .sink(receiveCompletion: NetworkingManager.handleCompletion) { [weak self] receivedData in
         self?.marketData = receivedData.data
         self?.marketDataSubscription?.cancel()
-      })
+      }
   }
 }

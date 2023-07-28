@@ -4,7 +4,8 @@
 
 import SwiftUI
 
-@main struct CryptoTrackerApp: App {
+@main
+struct CryptoTrackerApp: App {
   @StateObject private var viewModel = HomeViewModel()
 
   init() {

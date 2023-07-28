@@ -11,7 +11,7 @@ class HomeViewModel: ObservableObject {
   @Published var allCoins: [CoinModel] = []
   @Published var portfolioCoins: [CoinModel] = []
   @Published var searchedText: String = ""
-  @Published var isLoading: Bool = false
+  @Published var isLoading = false
 
   // data service
   private let coinDataService = CoinDataService()
@@ -37,7 +37,9 @@ class HomeViewModel: ObservableObject {
     }
   }
 
-  private func mapAllCoinsToPortfolioCoins(coinModels: [CoinModel], portfolioEnities: [PortfolioEntity]) -> [CoinModel] {
+  private func mapAllCoinsToPortfolioCoins(
+    coinModels: [CoinModel], portfolioEnities: [PortfolioEntity]
+  ) -> [CoinModel] {
     coinModels.compactMap { coin -> CoinModel? in
       guard let entity = portfolioEnities.first(where: { $0.coinID == coin.id }) else {
         return nil
@@ -72,10 +74,24 @@ class HomeViewModel: ObservableObject {
     let percentageChange = ((portfolioValue - previousValue) / previousValue) * 100
 
     stats.append(contentsOf: [
-      StatisticModel(title: "Market cap", value: data.marketCap, percentageChange: data.marketCapChangePercentage24HUsd),
-      StatisticModel(title: "Volume", value: data.volume),
-      StatisticModel(title: "BTC dominance", value: data.btcDominance),
-      StatisticModel(title: "Portfolio value", value: portfolioValue.asCurrencyWith2Decimals(), percentageChange: percentageChange),
+      StatisticModel(
+        title: "Market cap",
+        value: data.marketCap,
+        percentageChange: data.marketCapChangePercentage24HUsd
+      ),
+      StatisticModel(
+        title: "Volume",
+        value: data.volume
+      ),
+      StatisticModel(
+        title: "BTC dominance",
+        value: data.btcDominance
+      ),
+      StatisticModel(
+        title: "Portfolio value",
+        value: portfolioValue.asCurrencyWith2Decimals(),
+        percentageChange: percentageChange
+      )
     ])
 
     return stats

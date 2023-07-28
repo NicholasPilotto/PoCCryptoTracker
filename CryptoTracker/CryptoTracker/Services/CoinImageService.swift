@@ -7,7 +7,7 @@ import Foundation
 import SwiftUI
 
 class CoinImageService {
-  @Published var image: UIImage? = nil
+  @Published var image: UIImage?
 
   private var imageSubscription: AnyCancellable?
   private let coin: CoinModel
@@ -27,19 +27,15 @@ class CoinImageService {
     }
 
     imageSubscription = NetworkingManager.download(url: url)
-      .tryMap { data -> UIImage? in
-        UIImage(data: data)
-      }
-      .sink(receiveCompletion: NetworkingManager.handleCompletion, receiveValue: { [weak self] returnedImage in
-        guard let self = self,
-              let downloadedImage = returnedImage else
-        {
+      .tryMap { UIImage(data: $0) }
+      .sink(receiveCompletion: NetworkingManager.handleCompletion) { [weak self] returnedImage in
+        guard let self = self, let downloadedImage = returnedImage else {
           return
         }
         self.image = downloadedImage
         self.imageSubscription?.cancel()
         self.fileManager.saveImage(image: downloadedImage, imageName: self.imageName, folderName: self.folderName)
-      })
+      }
   }
 
   private func getCoinImage() {
