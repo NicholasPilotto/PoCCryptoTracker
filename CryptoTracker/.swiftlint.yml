@@ -20,7 +20,7 @@ opt_in_rules:
   - closure_end_indentation
   - closure_spacing
   - collection_alignment
-  - colon # promote to error
+  - colon
   - convenience_type
   - discouraged_object_literal
   - empty_collection_literal
@@ -54,7 +54,6 @@ opt_in_rules:
   - vertical_whitespace_opening_braces
   - yoda_condition
 
-
 custom_rules:
   array_constructor:
     name: "Array/Dictionary initializer"
@@ -62,7 +61,6 @@ custom_rules:
     capture_group: 1
     message: "Use explicit type annotation when initializing empty arrays and dictionaries"
     severity: warning
-
 
 attributes:
   always_on_same_line:
@@ -105,7 +103,7 @@ private_over_fileprivate:
   validate_extensions: true
 
 trailing_whitespace:
-  ignores_empty_lines: false
+  ignores_empty_lines: true
   ignores_comments: true
 
 vertical_whitespace:
