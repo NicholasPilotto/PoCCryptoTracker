@@ -42,7 +42,18 @@ class LocalFileManager {
     }
   }
 
-  func saveImage(image: UIImage, imageName: String, folderName: String) {
+  /// Save coin image
+  ///
+  /// This is function used to store coin image inside a cache file to avoid to download
+  /// it multiple times
+  ///
+  /// - Parameters:
+  ///   - image: Image to store
+  ///   - imageName: Name of the image to store
+  ///   - folderName: Name of the folder that will contain the image
+  /// - Authors: Nicholas Pilotto
+  /// - Since: 1.0
+  public func saveImage(image: UIImage, imageName: String, folderName: String) {
     createFolderIfNeeded(folderName: folderName)
 
     guard let data = image.pngData(),
@@ -57,7 +68,19 @@ class LocalFileManager {
     }
   }
 
-  func getImage(imageName: String, folderName: String) -> UIImage? {
+  /// Get the image from a cache file
+  ///
+  /// This is a function used to get the image from the file if the image has
+  /// already be downloaded
+  ///
+  /// - Parameters:
+  ///   - imageName: Name of the image to get
+  ///   - folderName: Name of the folder to looking for the image
+  /// - Returns: image as ``UIImage?`` if the image has been already be downloaded, ``nil``
+  /// otherwise
+  /// - Authors: Nicholas Pilotto
+  /// - Since: 1.0
+  public func getImage(imageName: String, folderName: String) -> UIImage? {
     guard let url = getURLForImage(imageName: imageName, folderName: folderName),
       FileManager.default.fileExists(atPath: url.path) else {
       return nil

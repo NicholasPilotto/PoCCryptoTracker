@@ -61,7 +61,19 @@ class PortfolioDataService {
     container.viewContext.delete(entity)
     applyChanges()
   }
-
+  
+  /// Update user portfolio
+  ///
+  /// Every user can have a set of **CoinModel**, used to store his
+  /// cryptocurrency portfolio
+  ///
+  /// - Authors: Nicholas Pilotto
+  /// - Parameters:
+  ///   - coin: coin to insert/update/delete in user's portfolio
+  ///   - amount: representing the amount of the coint to update.
+  ///   If it is positive, there is an increment or an inserting of it,
+  ///   otherwise it is decremented or deleted.
+  /// - Since: 1.0
   public func updatePortfolio(coin: CoinModel, amount: Double) {
     // check if coin is already present in portfolio
     if let entity = savedEntities.first(where: { $0.coinID == coin.id }) {

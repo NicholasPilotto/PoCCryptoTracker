@@ -138,7 +138,7 @@ class HomeViewModel: ObservableObject {
     return stats
   }
 
-  func addSubscribers() {
+  public func addSubscribers() {
     // update coins data
     $searchedText
       .combineLatest(coinDataService.$allCoins, $sortOption)
