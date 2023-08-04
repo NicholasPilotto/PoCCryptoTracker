@@ -19,6 +19,7 @@ struct CoinDetailModel: Codable {
 }
 
 struct Description: Codable {
+  // swiftlint:disable:next identifier_name
   let en: String?
 }
 
