@@ -6,3 +6,23 @@
 //
 
 import Foundation
+
+struct CoinDetailModel: Codable {
+  let id: String?
+  let symbol: String?
+  let name: String?
+  let blockTimeInMinutes: Int?
+  let hashingAlgorithm: String?
+  let categories: [String]?
+  let description: Description?
+  let links: Links?
+}
+
+struct Description: Codable {
+  let en: String?
+}
+
+struct Links: Codable {
+  let homepage: [String]?
+  let subredditURL: String?
+}
