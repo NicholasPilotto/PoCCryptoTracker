@@ -8,6 +8,8 @@
 import Combine
 import Foundation
 
+/// View model class to manage detail coin data and share it
+/// with detail coin views
 class DetailViewModel: ObservableObject {
   private let coinDetailService: CoinDetailDataService
   private var cancellables = Set<AnyCancellable>()
