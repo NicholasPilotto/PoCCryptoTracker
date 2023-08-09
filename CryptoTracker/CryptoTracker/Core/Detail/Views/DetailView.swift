@@ -22,6 +22,8 @@ struct DetailLoadingView: View {
 struct DetailView: View {
   let coin: CoinModel
   @StateObject var viewModel: DetailViewModel
+  @State private var showFullDescription = false
+  
   private let columns: [GridItem] = [
     GridItem(.flexible()),
     GridItem(.flexible())
@@ -41,15 +43,21 @@ struct DetailView: View {
         VStack(spacing: 20) {
           overviewTitle
           Divider()
+          
+          descriptionSection
+          
           overviewGrid
           additionalTitle
           Divider()
           additionalGrid
+          
+          websiteSection
         }
         .padding()
       }
     }
     .navigationTitle(viewModel.coin.name)
+    .navigationBarTitleDisplayMode(.large)
     .toolbar {
       ToolbarItem(placement: .navigationBarTrailing) {
         navigationBarTrailingItems
@@ -100,6 +108,47 @@ extension DetailView {
       CoinImageView(coin: viewModel.coin)
         .frame(width: 25, height: 25)
     }
+  }
+  
+  private var descriptionSection: some View {
+    ZStack {
+      if let coinDescription = viewModel.coinDescription, !coinDescription.isEmpty {
+        VStack(alignment: .leading) {
+          Text(coinDescription)
+            .lineLimit(showFullDescription ? nil : 3)
+            .font(.callout)
+            .foregroundColor(Color.theme.secondaryText)
+          
+          Button {
+            withAnimation(.easeInOut) {
+              showFullDescription.toggle()
+            }
+          } label: {
+            Text(showFullDescription ? "Read less..." : "Read more...")
+              .font(.caption)
+              .fontWeight(.bold)
+              .padding(.vertical, 4)
+          }
+          .tint(.blue)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+      }
+    }
+  }
+  
+  private var websiteSection: some View {
+    VStack(alignment: .leading, spacing: 10) {
+      if let website = viewModel.websiteURL, let url = URL(string: website) {
+        Link("Website", destination: url)
+      }
+      
+      if let reddit = viewModel.redditURL, let url = URL(string: reddit) {
+        Link("Reddit", destination: url)
+      }
+    }
+    .tint(.blue)
+    .frame(maxWidth: .infinity, alignment: .leading)
+    .font(.headline)
   }
 }
 
