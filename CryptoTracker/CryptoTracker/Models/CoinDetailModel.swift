@@ -16,6 +16,10 @@ struct CoinDetailModel: Codable {
   let categories: [String]?
   let description: Description?
   let links: Links?
+  
+  var readableDescription: String? {
+    return description?.en?.removingHtmlOccurencies
+  }
 }
 
 struct Description: Codable {
@@ -25,5 +29,5 @@ struct Description: Codable {
 
 struct Links: Codable {
   let homepage: [String]?
-  let subredditURL: String?
+  let subredditUrl: String?
 }
