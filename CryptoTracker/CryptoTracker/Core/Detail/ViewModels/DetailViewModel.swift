@@ -17,6 +17,9 @@ class DetailViewModel: ObservableObject {
   @Published var coin: CoinModel
   @Published var overviewStatistics: [StatisticModel] = []
   @Published var additionalStatistics: [StatisticModel] = []
+  @Published var coinDescription: String?
+  @Published var websiteURL: String?
+  @Published var redditURL: String?
   
   init(coin: CoinModel) {
     self.coin = coin
@@ -27,10 +30,24 @@ class DetailViewModel: ObservableObject {
   private func addSubscribers() {
     coinDetailService.$coinDetails
       .combineLatest($coin)
-      .map(mapDataToStatistics)
+      .map { [weak self] returnedCoinDetail, returnedCoinModel ->
+        (overview: [StatisticModel], additional: [StatisticModel]) in
+        guard let self = self else {
+          return ([], [])
+        }
+        return self.mapDataToStatistics(coinDetailModel: returnedCoinDetail, coinModel: returnedCoinModel)
+      }
       .sink { [weak self ]returnedArrays in
         self?.overviewStatistics = returnedArrays.overview
         self?.additionalStatistics = returnedArrays.additional
+      }
+      .store(in: &cancellables)
+    
+    coinDetailService.$coinDetails
+      .sink { [weak self] returnedCoinDetails in
+        self?.coinDescription = returnedCoinDetails?.readableDescription
+        self?.websiteURL = returnedCoinDetails?.links?.homepage?.first
+        self?.redditURL = returnedCoinDetails?.links?.subredditUrl
       }
       .store(in: &cancellables)
   }
