@@ -13,6 +13,8 @@ struct HomeView: View {
   
   @State private var selectedCoin: CoinModel?
   @State private var showDetailView = false
+  
+  @State private var showSettingsView = false
 
   var body: some View {
     NavigationStack {
@@ -43,6 +45,9 @@ struct HomeView: View {
           
           Spacer(minLength: 0)
         }
+        .sheet(isPresented: $showSettingsView) {
+          SettingsView()
+        }
       }
     }
   }
@@ -61,6 +66,8 @@ extension HomeView {
         .onTapGesture {
           if showPortfolio {
             showPortfolioView.toggle()
+          } else {
+            showSettingsView.toggle()
           }
         }
 
