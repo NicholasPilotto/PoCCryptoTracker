@@ -65,7 +65,7 @@ struct DetailView: View {
     }
   }
 }
-
+ 
 extension DetailView {
   private var overviewTitle: some View {
     Text("Overview")
