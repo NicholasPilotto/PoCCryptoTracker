@@ -43,3 +43,4 @@ All data is downloaded using _Publisher-Subscriber_ pattern (built in _Combine_ 
 ## Lint
 
 All code is linted during a build process using _SwiftLint_.
+Lint rules can be found [here](https://github.com/NicholasPilotto/MyUtilities/tree/main/swiftlint)
