@@ -23,6 +23,7 @@ It has one more subview, _ChartView_, representing a line chart object.
 As every view, all the data that this view shows are managed by a _ViewModel_ class: downloading data for the selected coin, transform downloaded data and pass them to the view.
 
 ### Home
+
 _Home_ is the first view and it shows the 250 coins with the greatest capitalization.
 
 This view could show user's portfolio, where user can see its portfolio and make operations on it (e.g. add, sell partially o completely a coin).
